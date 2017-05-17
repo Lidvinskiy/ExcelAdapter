@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test kurs</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/sandstone/bootstrap.min.css" rel="stylesheet" integrity="sha384-G3G7OsJCbOk1USkOY4RfeX1z27YaWrZ1YuaQ5tbuawed9IoreRDpWpTkZLXQfPm3" crossorigin="anonymous">
+    <style>
+      .left-menu{
+         background-color:#eee;
+         height:100%;
+         border-right: 1px solid #eee;
+         padding: 10px 15px;
+      }
+      .tr {
+        width: 100%;
+        display: inline-table;
+        }
+
+      .table{
+         min-height:600px !important;
+        }
+      .tbody{
+          overflow-y: scroll;
+          height: 200px;
+          width: 100%;
+          position: absolute;
+        }
+        .pre-scrollable {
+    max-height: 600px;
+     overflow-y: scroll;
+        }
+    </style>
+</head>
+<body>
+      <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">CSV/Excel Converter</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Додому</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container-fluid" style="height:100%;min-height:100%;">
+      <div class="col-md-3 col-xs-12 left-menu" style="height:100%;min-height:100%; border-right:1px solid #ddd; overflow-y:hidden;">
+        <div class="form-horizontal">
+          <h4>Завантажити з бази даних</h4>
+          <br>
+          <div class="form-group">
+            <label for="func-dropdown" class="control-label col-sm-3">Таблиці</label>
+            <div class="col-sm-9">
+              <select class="form-control" id="table_name_select">
+                  {% for table in tables %}
+                <option value="{{table}}">{{table}}</option>
+                  {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-3">
+
+            </div>
+            <div class="col-sm-3">
+              <label for="csv-radio">CSV</label>
+              <input type="radio" id="csv-radio" name="format" value="" checked="checked">
+            </div>
+            <div class="col-sm-6">
+              <label for="excel-radio">Excel</label>
+              <input type="radio" id="excel-radio" name="format" value="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9">
+                <button type="button" class="btn btn-success" name="button" onclick="GetFile();">Завантажити</button>
+                <button type="button" class="btn btn-primary" name="button" onclick="GetHtmlTable();">Переглянути</button>
+            </div>
+          </div>
+          <br>
+          <hr />
+          <br>
+          <h4>Завантажити до бази даних</h4>
+          <div class="form-group">
+          </div>
+          <div class="form-group">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-12">
+                <form method="POST" name="form" id="form" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="table-name" class="control-label">Введіть назву таблиці</label>
+                    <input type="text" id="table-name" name="table-name"  class="form-control" placeholder="Тільки англійська...">
+                    <br>
+                    <input type='file' name='file' id='file' />
+                    <br>
+                    <button type="button" class="btn btn-success" name="button" value='Upload' id='upload' onclick="sendFile();">Завантажити</button>
+                </form>
+                    <div class="col-xs-12 col-md-6" id="tablebase">
+
+                    </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="col-md-9 col-xs-12 hidden pre-scrollable" id="table-holder">
+
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+      <script type="text/javascript">
+        function getSelectedText(elementId) {
+            var elt = document.getElementById(elementId);
+                return elt.options[elt.selectedIndex].text;
+        }
+
+        function GetFile() {
+            var text = getSelectedText('table_name_select');
+            if(document.getElementById('csv-radio').checked){
+                GetCsvFile(text);
+            }
+            else if(document.getElementById('excel-radio').checked){
+                GetExcelFile(text)
+            }
+        }
+        function GetExcelFile(table_name) {
+            location.replace('get_table_excel/?table_name='.concat(table_name))
+        }
+        function GetCsvFile(table_name) {
+            location.replace('get_table_csv/?table_name='.concat(table_name))
+        }
+
+    function sendFile() {
+        if (($('#table-name').val()==0) || ($('#file').get(0).files.length == 0) ){
+            alert("Для завантаження таблиці введіть її назву та виберіть файл");
+        }
+        else{
+            var data = new FormData($('form').get(0));
+            $.ajax({
+                type: 'POST',
+                url : 'set_file/',
+                enctype: "multipart/form-data",
+                processData: false,
+                contentType: false,
+                data  : data,
+                success: function(data) {
+                    if (data == false){
+                         alert("Ваш файл неможливо переторити в таблицю")
+                    }
+                   else {
+                         location.reload(data);
+                    }
+                }
+
+      })
+        }
+    }
+    function GetHtmlTable() {
+            var text = getSelectedText('table_name_select');
+            $.get('show_table/',
+                   ({table_name:text}), function(data){
+                            console.log(data);
+                           $("#table-holder").html(data['table']);
+                           $("#table-holder").addClass("material-design-block");
+                           $("#table-holder").removeClass("hidden");
+
+
+             },'json');
+        }
+        $('#table-name').bind('keyup blur', function() {
+        $(this).val($(this).val().replace(/[^A-Za-z]/g, ''))
+        });
+
+
+    </script>
+</body>
+</html>
