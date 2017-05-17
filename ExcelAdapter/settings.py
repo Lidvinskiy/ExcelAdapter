@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'ExcelAdapter.wsgi.application'
 #   }
 #}
 
-ENGINE = create_engine('sqlite:///sqlite.db')
+ENGINE = create_engine('postgresql+psycopg2://bkgfdfmzousnqh:a5a036ae6b6e841885c42efcf6b0a8342e6947fe23ada0f7649ce87625f836bd@ec2-54-235-90-107.compute-1.amazonaws.com:5432/dah0tibpglf5s5')
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
