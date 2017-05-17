@@ -153,13 +153,14 @@
                 success: function(data) {
                     if (data == false){
                          alert("Ваш файл неможливо переторити в таблицю")
+                        $("#load-flag").addClass("hidden");
                     }
                    else {
                          location.reload(data);
                     }
                 }
       });
-            $("#load-flag").addClass("hidden");
+
         }
     }
     function GetHtmlTable() {
