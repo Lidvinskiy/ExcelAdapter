@@ -95,9 +95,6 @@
                     <input type='file' name='file' id='file' />
                     <br>
                     <button type="button" class="btn btn-success" name="button" value='Upload' id='upload' onclick="sendFile();">Завантажити</button>
-                    <div class="hiden" id="load-flag">
-                        <label for="table-name" class="control-label">Ваша таблиця додається до бази даних</label>
-                    </div>
                 </form>
                     <div class="col-xs-12 col-md-6" id="tablebase">
 
@@ -142,7 +139,7 @@
         }
         else{
             var data = new FormData($('form').get(0));
-            $("#load-flag").removeClass("hidden");
+
             $.ajax({
                 type: 'POST',
                 url : 'set_file/',
@@ -153,7 +150,6 @@
                 success: function(data) {
                     if (data == false){
                          alert("Ваш файл неможливо переторити в таблицю")
-                        $("#load-flag").addClass("hidden");
                     }
                    else {
                          location.reload(data);
