@@ -10,9 +10,10 @@ from django.views.decorators.csrf import csrf_exempt
 from pandas import ExcelWriter
 import pandas as pd
 from ExcelAdapter import settings
-from data.Manger import Manager as manager
+from data.Manger import get_table
 
 
+# Функція загрузка сторінки
 def main_page(request):
     base_tables = ['django_migrations',
                    'sqlite_sequence',
@@ -36,8 +37,9 @@ def main_page(request):
     return render(request, 'main.html', context)
 
 
+# Функція надсилання csv файлу
 def get_table_csv(request, table_name=''):
-    data = manager.get_table(request.GET['table_name'])
+    data = get_table(request.GET['table_name'])
     response = HttpResponse(content_type='text/csv; charset=utf-8')
     response.write(codecs.BOM_UTF8)
     response['Content-Disposition'] = 'attachment; filename="csv_file.csv"'
@@ -45,9 +47,9 @@ def get_table_csv(request, table_name=''):
     return response
 
 
-# noinspection PyTypeChecker
+# Функція надсилання Excel файлу
 def get_table_excel(request, table_name=''):
-    data = manager.get_table(request.GET['table_name'])
+    data = get_table(request.GET['table_name'])
     sio = BytesIO()
     writer = ExcelWriter(sio, engine='xlsxwriter')
     data.to_excel(writer, encoding='utf-8', index=False)
@@ -59,8 +61,9 @@ def get_table_excel(request, table_name=''):
     return response
 
 
+# Функція отримання файлу та його збереження до бд
 @csrf_exempt
-def set_table_csv(request):
+def set_table(request):
     if request.method == 'POST':
         file = request.FILES["file"]
         if file.name.endswith(".csv"):
@@ -78,9 +81,10 @@ def set_table_csv(request):
         return HttpResponse(False)
 
 
+# Функція надсилає HTML таблицю
 def show_table(request, table_name=''):
     try:
-        df = manager.get_table(request.GET['table_name'])
+        df = get_table(request.GET['table_name'])
         data = {"table": df.to_html(
             classes=['table', 'table-striped', 'table-hover', 'table-responsive', 'table-report'], border=0)
         }
