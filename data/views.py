@@ -26,7 +26,8 @@ def main_page(request):
                    'auth_user',
                    'django_session',
                    'auth_group']
-    tables_ex = settings.ENGINE.connect().execute("SELECT datname FROM pg_database WHERE datistemplate = false;").fetchall()
+    tables_ex = settings.ENGINE.connect().execute("SELECT table_schema,table_name FROM information_schema.tables ORDER BY table_schema,table_name;").fetchall()
+    print(tables_ex)
     tables_new = []
     for i in tables_ex:
         if i[0] not in base_tables:
