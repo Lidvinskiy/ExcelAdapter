@@ -15,7 +15,7 @@ SECRET_KEY = '#(2othionrw3ci7qjb!p$e4sn@wp2zvm*2b05wfk74#pvkc0^2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["excelcsvadapter.herokuapp.com"]
 
 
 # Application definition
