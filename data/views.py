@@ -26,7 +26,7 @@ def main_page(request):
                    'auth_user',
                    'django_session',
                    'auth_group']
-    tables_ex = settings.ENGINE.connect().execute("SELECT table_schema,table_name FROM information_schema.tables ORDER BY table_schema,table_name;").fetchall()
+    tables_ex = settings.ENGINE.connect().execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';").fetchall()
     print(tables_ex)
     tables_new = []
     for i in tables_ex:
