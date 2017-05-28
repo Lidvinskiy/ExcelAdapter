@@ -41,7 +41,7 @@ def main_page(request):
         print(cols)
         column_names = []
         for names in cols:
-            column_names.append(names[1])
+            column_names.append(names[0])
         columns[i] = column_names
     context = {
         "tables": tables_new,
