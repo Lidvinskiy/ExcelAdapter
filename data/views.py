@@ -38,6 +38,7 @@ def main_page(request):
     for i in tables_new:
         cols = settings.ENGINE.connect().execute(
             "select column_name from information_schema.columns where table_name='%s';" % i).fetchall()
+        print(cols)
         column_names = []
         for names in cols:
             column_names.append(names[1])
