@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Test kurs</title>
+    <title>CsvExcelConverter</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/sandstone/bootstrap.min.css" rel="stylesheet" integrity="sha384-G3G7OsJCbOk1USkOY4RfeX1z27YaWrZ1YuaQ5tbuawed9IoreRDpWpTkZLXQfPm3" crossorigin="anonymous">
     <style>
       .left-menu{
@@ -101,8 +101,64 @@
                     </div>
             </div>
           </div>
+          <h4>Завантажити з об'эднанням</h4>
+          <br>
+          <div class="form-group">
+            <label for="func-dropdown" class="control-label">Перша таблиця для об'єднання</label>
+            <div class="col-sm-9">
+              <select class="form-control" id="table_name_select_first" onchange="setfirstOptions();">
+                  {% for table in tables %}
+                <option value="{{table}}">{{table}}</option>
+                  {% endfor %}
+              </select>
+            </div>
+          </div>
+           <div class="form-group hidden" id="first_column_option">
+            <label for="func-dropdown" class="control-label">Ключ першої таблиці</label>
+            <div class="col-sm-9">
+              <select class="form-control" id="first_column_selector">
+              </select>
+            </div>
+          </div>
+           <div class="form-group">
+            <label for="func-dropdown" class="control-label">Друга таблиця для об'єднання</label>
+            <div class="col-sm-9">
+              <select class="form-control" id="table_name_select_second" onchange="setsecondOptions();">
+                  {% for table in tables %}
+                <option value="{{table}}">{{table}}</option>
+                  {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="form-group hidden" id="second_column_option">
+            <label for="func-dropdown" class="control-label">Ключ другої таблиці</label>
+            <div class="col-sm-9">
+              <select class="form-control" id="second_column_selector">
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-3">
+            </div>
+            <div class="col-sm-3">
+              <label for="csv-radio">CSV</label>
+              <input type="radio" id="csv-radio-join" name="format" value="" checked="checked">
+            </div>
+            <div class="col-sm-6">
+              <label for="excel-radio">Excel</label>
+              <input type="radio" id="excel-radio-join" name="format" value="">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9">
+                <button type="button" class="btn btn-success" name="button" onclick="GetFileJoin();">Завантажити</button>
+                <button type="button" class="btn btn-primary" name="button" onclick="GetHtmlJoinedTable();">Переглянути</button>
+            </div>
+          </div>
         </div>
       </div>
+
         <div class="col-md-9 col-xs-12 hidden pre-scrollable" id="table-holder">
 
         </div>
@@ -112,6 +168,32 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
       <script type="text/javascript">
+        function setfirstOptions(){
+            $('#first_column_selector')
+            .find('option')
+            .remove()
+            .end();
+            var table_name = getSelectedText('table_name_select_first');
+            var tables_and_columns = {{ tables_and_columns|safe }};
+            var columns = tables_and_columns[table_name];
+            for (var i = 0; i < columns.length; i++) {
+                $("#first_column_selector").append(new Option(columns[i], columns[i]));
+            }
+            $("#first_column_option").removeClass("hidden");
+        }
+        function setsecondOptions(){
+            $('#second_column_option')
+            .find('option')
+            .remove()
+            .end();
+            var table_name = getSelectedText('table_name_select_second');
+            var tables_and_columns = {{ tables_and_columns|safe }};
+            var columns = tables_and_columns[table_name];
+            for (var i = 0; i < columns.length; i++) {
+                $("#second_column_selector").append(new Option(columns[i], columns[i]));
+            }
+            $("#second_column_option").removeClass("hidden");
+        }
         function getSelectedText(elementId) {
             var elt = document.getElementById(elementId);
                 return elt.options[elt.selectedIndex].text;
@@ -163,7 +245,6 @@
             var text = getSelectedText('table_name_select');
             $.get('show_table/',
                    ({table_name:text}), function(data){
-                            console.log(data);
                            $("#table-holder").html(data['table']);
                            $("#table-holder").addClass("material-design-block");
                            $("#table-holder").removeClass("hidden");
@@ -174,8 +255,42 @@
         $('#table-name').bind('keyup blur', function() {
         $(this).val($(this).val().replace(/[^A-Za-z]/g, ''))
         });
-
-
+    function GetHtmlJoinedTable() {
+            var first_table_name = getSelectedText('table_name_select_first');
+            var second_table_name = getSelectedText('table_name_select_second');
+            var left_on = getSelectedText('first_column_selector');
+            var right_on = getSelectedText('second_column_selector');
+            $.get('show_joined_table/',
+                   ({first_table_name:first_table_name,
+                   second_table_name:second_table_name,
+                   left_on:left_on,
+                   right_on:right_on}), function(data){
+                           $("#table-holder").html(data['table']);
+                           $("#table-holder").addClass("material-design-block");
+                           $("#table-holder").removeClass("hidden");
+             },'json');
+        }
+        $('#table-name').bind('keyup blur', function() {
+        $(this).val($(this).val().replace(/[^A-Za-z]/g, ''))
+        });
+        function GetFileJoin() {
+            var first_table_name = getSelectedText('table_name_select_first');
+            var second_table_name = getSelectedText('table_name_select_second');
+            var left_on = getSelectedText('first_column_selector');
+            var right_on = getSelectedText('second_column_selector');
+            if(document.getElementById('csv-radio-join').checked){
+                GetCsvJoinFile(first_table_name,second_table_name,left_on,right_on);
+            }
+            else if(document.getElementById('excel-radio-join').checked){
+                GetExcelJoinFile(first_table_name,second_table_name,left_on,right_on)
+            }
+        }
+        function GetExcelJoinFile(first_table_name,second_table_name,left_on,right_on) {
+            location.replace('/get_table_join_excel/?first_table_name='.concat(first_table_name).concat('&second_table_name=').concat(second_table_name).concat('&left_on=').concat(left_on).concat('&right_on=').concat(right_on))
+        }
+        function GetCsvJoinFile(first_table_name,second_table_name,left_on,right_on) {
+            location.replace('/get_table_join_csv/?first_table_name='.concat(first_table_name).concat('&second_table_name=').concat(second_table_name).concat('&left_on=').concat(left_on).concat('&right_on=').concat(right_on))
+        }
     </script>
 </body>
 </html>
