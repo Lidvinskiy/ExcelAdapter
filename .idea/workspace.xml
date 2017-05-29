@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e35b8e14-94ec-4db2-a96d-f1ed55116343" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/data/Manger.py" afterPath="$PROJECT_DIR$/data/Manger.py" />
     </list>
     <ignored path="ExcelAdapter.iws" />
@@ -43,7 +42,7 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
+            <state relative-caret-position="527">
               <caret line="43" column="39" selection-start-line="43" selection-start-column="39" selection-end-line="43" selection-end-column="39" />
               <folding>
                 <element signature="e#15#28#0" expanded="true" />
@@ -101,14 +100,12 @@
       <file leaf-file-name="Manger.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/data/Manger.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+            <state relative-caret-position="204">
+              <caret line="12" column="38" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
               <folding>
                 <element signature="e#15#34#0" expanded="true" />
-                <marker date="1496039050902" expanded="true" signature="173:187" ph="Select * Fro... missing_value" />
-                <marker date="1496039050902" expanded="true" signature="173:188" ph="Select * Fro... " />
-                <marker date="1496039050902" expanded="true" signature="173:190" ph="Select * Fro... " />
-                <marker date="1496039050902" expanded="true" signature="173:191" ph="Select * Fro... " />
+                <marker date="1496056073665" expanded="true" signature="173:187" ph="Select * Fro... " />
+                <marker date="1496056073665" expanded="true" signature="173:189" ph="Select * Fro... " />
               </folding>
             </state>
           </provider>
@@ -214,6 +211,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -262,8 +261,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -695,10 +692,8 @@
           <caret line="1" column="9" selection-start-line="1" selection-start-column="9" selection-end-line="1" selection-end-column="9" />
           <folding>
             <element signature="e#15#34#0" expanded="true" />
-            <marker date="1496039050902" expanded="true" signature="173:187" ph="Select * Fro... missing_value" />
-            <marker date="1496039050902" expanded="true" signature="173:188" ph="Select * Fro... " />
-            <marker date="1496039050902" expanded="true" signature="173:190" ph="Select * Fro... " />
-            <marker date="1496039050902" expanded="true" signature="173:191" ph="Select * Fro... " />
+            <marker date="1496056073665" expanded="true" signature="173:187" ph="Select * Fro... " />
+            <marker date="1496056073665" expanded="true" signature="173:189" ph="Select * Fro... " />
           </folding>
         </state>
       </provider>
@@ -1018,7 +1013,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/data/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
+        <state relative-caret-position="527">
           <caret line="43" column="39" selection-start-line="43" selection-start-column="39" selection-end-line="43" selection-end-column="39" />
           <folding>
             <element signature="e#15#28#0" expanded="true" />
@@ -1038,14 +1033,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/data/Manger.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+        <state relative-caret-position="204">
+          <caret line="12" column="38" selection-start-line="12" selection-start-column="38" selection-end-line="12" selection-end-column="38" />
           <folding>
             <element signature="e#15#34#0" expanded="true" />
-            <marker date="1496039050902" expanded="true" signature="173:187" ph="Select * Fro... missing_value" />
-            <marker date="1496039050902" expanded="true" signature="173:188" ph="Select * Fro... " />
-            <marker date="1496039050902" expanded="true" signature="173:190" ph="Select * Fro... " />
-            <marker date="1496039050902" expanded="true" signature="173:191" ph="Select * Fro... " />
+            <marker date="1496056073665" expanded="true" signature="173:187" ph="Select * Fro... " />
+            <marker date="1496056073665" expanded="true" signature="173:189" ph="Select * Fro... " />
           </folding>
         </state>
       </provider>
