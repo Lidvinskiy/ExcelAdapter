@@ -5,7 +5,7 @@ from ExcelAdapter.settings import ENGINE
 
 # Повертає таблицю з бд у вигляді DataFrame
 def get_table(table_name):
-    return pd.read_sql("Select * From %s" % table_name, ENGINE)
+    return pd.read_sql("Select * From '%s'" % table_name, ENGINE)
 
 
 def get_joined(first_table_name, second_table_name, left_on, right_on):
